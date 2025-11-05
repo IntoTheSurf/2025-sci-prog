@@ -12,7 +12,7 @@
 
 ## Kako pokrenuti
 
-- u terminalu pokrenuti naredbom -m marimo run students/04/exercise/muvodic/scraper.py
+- u terminalu pokrenuti naredbom (ako se nalazite u direktoriju 2025-sci-prog) marimo run students/04/exercise/muvodic/scraper.py
 
 ## Izlaz
 
