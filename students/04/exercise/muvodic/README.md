@@ -1,5 +1,9 @@
 # Simple Web Scraper (Steel + Google AI)
 
+## Koji URL i zašto
+ Scrape-an je url: https://docker-curriculum.com/
+ Tu se nalazi detaljni početni tutorijal i uvod u alat Docker. Odlucila sam obradivati ovaj url kako bi imala skracenu verziju (vrlo korisne) stranice i detaljan road map (plan ucenja) koji se moze koristiti tijekom ucenja
+
 ## Prije pokretanja
 
 1. Instalirati dependencies i dodati API kljuceve u .env datoteku
