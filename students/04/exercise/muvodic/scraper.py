@@ -9,17 +9,15 @@ def _():
     import os
     import requests
     from dotenv import load_dotenv
-    import google.generativeai as genai
-    return genai, load_dotenv, os, requests
+    return load_dotenv, os, requests
 
 
 @app.cell
 def _():
     import marimo as _mo
 
-    url_input = _mo.ui.text(
-        label="URL", placeholder="https://example.com", value="")
-    run_btn = _mo.ui.run_button(label="Scrape & summarize")
+    url_input = _mo.ui.text(value="https://docker-curriculum.com/",disabled=True)
+    run_btn = _mo.ui.run_button(label="Click to summarize")
     _mo.hstack([url_input, run_btn])
     return run_btn, url_input
 
@@ -86,73 +84,41 @@ def _(load_dotenv, os, requests):
             return resp.text
         except Exception as e:
             return f"ERROR contacting Steel: {e}"
-
     return google_key, steel_fetch_text, steel_key
 
 
 @app.cell
-def _(genai):
-    def gemini_summarize(excerpt: str, api_key: str) -> str:
-        if not api_key:
-            return "ERROR: GOOGLE_API_KEY nije postavljen (.env)."
-        try:
-            genai.configure(api_key=api_key)
-            # Dynamically find a model that supports generateContent
-            try:
-                models = list(genai.list_models())
-            except Exception:
-                models = []
-            candidate_models = []
-            for m in models:
-                try:
-                    methods = getattr(
-                        m, "supported_generation_methods", []) or []
-                    if "generateContent" in methods:
-                        candidate_models.append(getattr(m, "name", ""))
-                except Exception:
-                    continue
-            # Ensure some reasonable defaults at the end
-            candidate_models += [
-                "gemini-1.5-flash-latest",
-                "gemini-1.5-flash",
-                "gemini-1.5-pro-latest",
-            ]
-            prompt = (
-                "Analziraj rezultate webscrapinga. Vrati najvažnije informacije i izradi plan koraka koji bi korisnik mogao koristiti kao podsjetnik tijekom učenja sadržaja sa ove stranice.\n\n"
-                "Isječak:\n" + excerpt
-            )
-            last_err = None
-            for model_name in candidate_models:
-                try:
-                    if not model_name:
-                        continue
-                    model = genai.GenerativeModel(model_name)
-                    resp = model.generate_content(prompt)
-                    text = getattr(resp, "text", "") or "(prazan odgovor)"
-                    # If model still returned JSON, try to prettify to human bullets
-                    try:
-                        import json
+def _():
+    # corrected gemini_summarize
+    from google import genai
+    from google.genai import types
 
-                        if text.strip().startswith("{") or text.strip().startswith("["):
-                            data = json.loads(text)
-                            if isinstance(data, dict):
-                                lines = []
-                                for k, v in data.items():
-                                    lines.append(f"- {k}: {v}")
-                                return "\n".join(lines)
-                            if isinstance(data, list):
-                                return "\n".join(f"- {item}" for item in data)
-                    except Exception:
-                        pass
-                    return text
-                except Exception as inner_e:
-                    last_err = inner_e
-                    continue
-            if last_err is not None:
-                return f"ERROR from Gemini: {last_err}"
-            return "(prazan odgovor)"
-        except Exception as e:
-            return f"ERROR from Gemini: {e}"
+    def gemini_summarize(excerpt: str, api_key: str) -> str:
+
+        client = genai.Client(api_key=api_key)
+
+        user_prompt = (
+            "You are provided with the results of a web scraping operation. "
+            "Summarize the main points and key information from the following excerpt "
+            "and give a detailed step-by-step learning plan that can be used as a roadmap "
+            "for someone learning Docker:\n\n"
+            f"{excerpt}"
+        )
+
+        cfg = types.GenerateContentConfig(
+            system_instruction=(
+                "You are explaining the contents and concepts in the given article to a "
+                "complete beginner in the field. Go into depth and provide examples where possible."
+            ),
+        )
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=user_prompt,
+            config=cfg,
+        )
+
+        return response.text
     return (gemini_summarize,)
 
 
@@ -166,13 +132,12 @@ def _(
     url_input,
 ):
     import marimo as _mo
-    view = _mo.md("Unesite URL i kliknite ‘Scrape & summarize’.")
+
+    view = _mo.md("Click to scrape")
     if run_btn.value:
-        url = (url_input.value or "").strip()
-        if not url:
-            view = _mo.md("Please enter a URL.")
-        elif not steel_key or not google_key:
-            view = _mo.md("Missing STEEL_API_KEY or GOOGLE_API_KEY in .env")
+        url = (url_input.value).strip()
+        if not steel_key or not google_key:
+            view = _mo.md("Missing STEEL_API_KEY or GEMINI_API_KEY in .env")
         else:
             steel_text = steel_fetch_text(url, steel_key)
             if not isinstance(steel_text, str):
