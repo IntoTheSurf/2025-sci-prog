@@ -1,0 +1,3 @@
+Informacije su prikupljene sa stranice https://www.scst.unist.hr/student/za-studente/ponuda-poslova. 
+Skripta se pokreće preko terminala, bash naredbama se promijeni direktorij u students/04/exercise/mkaroglan (cd naredba, putanja ovisi o mjestu u kojem se korisnik trenutno nalazi), a zatim se upisuje "marimo run scraper.py".
+Korisnik treba stvoriti .env datoteku unutar istog direktorija u kojoj će napisati google_api=### i steel_api=###, a ### zamijeniti sa vlastitim API ključevima za Google AI (Gemini) i Steel. 
