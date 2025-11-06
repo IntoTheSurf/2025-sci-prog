@@ -12,6 +12,13 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
     import requests
 
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    print("Installing BeautifulSoup4...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "beautifulsoup4", "lxml"])
+    from bs4 import BeautifulSoup
+
 class FBrefScraper:
     def __init__(self, steel_api_key, gemini_api_key):
         """
@@ -25,6 +32,27 @@ class FBrefScraper:
         self.steel_api_url = "https://api.steel.dev/v1/scrape"
         self.gemini_api_key = gemini_api_key
         self.gemini_api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
+
+    def _direct_scrape_fallback(self, fbref_url, headers):
+        """Fallback to simple scrape endpoint"""
+        print("Using simple scrape endpoint as fallback...")
+        scrape_payload = {
+            "url": fbref_url,
+            "waitFor": 10000
+        }
+
+        response = requests.post(
+            "https://api.steel.dev/v1/scrape",
+            json=scrape_payload,
+            headers=headers,
+            timeout=120
+        )
+
+        if response.status_code == 200:
+            data = response.json()
+            content = data.get('content', {}).get('html', '')
+            return content
+        return None
 
     def fetch_with_steel_api(self, fbref_url):
         """
@@ -46,12 +74,36 @@ class FBrefScraper:
                 "steel-api-key": self.steel_api_key
             }
 
-            # Use the direct scrape endpoint
-            scrape_payload = {
-                "url": fbref_url
+            # Create a session first for better control
+            print("Creating Steel API session...")
+            session_payload = {
+                "sessionTimeout": 300000  # 5 minutes
             }
 
-            print(f"Scraping {fbref_url}...")
+            session_response = requests.post(
+                "https://api.steel.dev/v1/sessions",
+                json=session_payload,
+                headers=headers,
+                timeout=30
+            )
+
+            if session_response.status_code not in [200, 201]:
+                print(f"Failed to create session: {session_response.status_code}")
+                print(f"Response: {session_response.text}")
+                # Fallback to direct scrape
+                return self._direct_scrape_fallback(fbref_url, headers)
+
+            session_data = session_response.json()
+            session_id = session_data.get('id')
+            print(f"Session created: {session_id}")
+
+            # Navigate to the page
+            scrape_payload = {
+                "url": fbref_url,
+                "sessionId": session_id
+            }
+
+            print(f"Navigating to {fbref_url}...")
             scrape_response = requests.post(
                 "https://api.steel.dev/v1/scrape",
                 json=scrape_payload,
@@ -60,15 +112,107 @@ class FBrefScraper:
             )
 
             if scrape_response.status_code == 200:
+                # Wait for dynamic content to load
+                print("Waiting for stats tables to load...")
+                import time
+                time.sleep(5)
+
+                # Get the HTML content after waiting
+                html_payload = {
+                    "sessionId": session_id,
+                    "command": "document.documentElement.outerHTML"
+                }
+
+                html_response = requests.post(
+                    "https://api.steel.dev/v1/sessions/evaluate",
+                    json=html_payload,
+                    headers=headers,
+                    timeout=30
+                )
+
+                if html_response.status_code == 200:
+                    html_data = html_response.json()
+                    content = html_data.get('result', {}).get('value', '')
+
+                    # Release session
+                    requests.delete(
+                        f"https://api.steel.dev/v1/sessions/{session_id}",
+                        headers=headers
+                    )
+
+                    if content:
+                        print(f"Successfully fetched {len(content)} characters from Steel API")
+                        with open('debug_raw_content.html', 'w', encoding='utf-8') as f:
+                            f.write(content)
+                        print("Saved raw content to debug_raw_content.html")
+                        return content
+
                 data = scrape_response.json()
                 # Debug: print the response structure
                 print(f"Response keys: {list(data.keys())}")
 
-                # Steel API returns content in different fields
-                content = data.get('content') or data.get('body') or data.get('html') or data.get('data') or str(data)
+                # Save the full response for debugging
+                with open('debug_full_response.json', 'w', encoding='utf-8') as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                print("Saved full API response to debug_full_response.json")
+
+                # Steel API returns content in different fields - try all possibilities
+                content = None
+
+                # Check common field names (prioritize HTML fields first)
+                for field in ['html', 'content', 'body', 'data', 'text', 'page_content']:
+                    if field in data:
+                        value = data[field]
+                        # Check if it's a string (direct content)
+                        if isinstance(value, str) and value:
+                            content = value
+                            print(f"Found content in field: {field}")
+                            break
+                        # Check if it's a dict with nested HTML
+                        elif isinstance(value, dict):
+                            if 'html' in value and isinstance(value['html'], str):
+                                content = value['html']
+                                print(f"Found content in nested field: {field}.html")
+                                break
+                            elif 'content' in value and isinstance(value['content'], str):
+                                content = value['content']
+                                print(f"Found content in nested field: {field}.content")
+                                break
+                            elif 'text' in value and isinstance(value['text'], str):
+                                content = value['text']
+                                print(f"Found content in nested field: {field}.text")
+                                break
+
+                # If no direct field, check nested structures in 'data'
+                if not content and 'data' in data and isinstance(data['data'], dict):
+                    for field in ['html', 'content', 'body', 'text']:
+                        if field in data['data']:
+                            value = data['data'][field]
+                            if isinstance(value, str) and value:
+                                content = value
+                                print(f"Found content in nested field: data.{field}")
+                                break
+                            elif isinstance(value, dict) and 'html' in value:
+                                content = value['html']
+                                print(f"Found content in nested field: data.{field}.html")
+                                break
+
+                # Last resort: convert entire response to string
+                if not content:
+                    print("WARNING: Could not find content in standard fields, using full response")
+                    content = str(data)
 
                 if isinstance(content, str):
                     print(f"Successfully fetched {len(content)} characters from Steel API")
+                    # Save raw HTML for debugging
+                    with open('debug_raw_content.html', 'w', encoding='utf-8') as f:
+                        f.write(content)
+                    print("Saved raw content to debug_raw_content.html for inspection")
+
+                    # Check if content looks valid (not just error messages)
+                    if len(content) < 1000:
+                        print("WARNING: Content seems very short, might be an error page")
+                        print(f"Content preview: {content[:500]}")
                 else:
                     print(f"Content type: {type(content)}")
                     content = str(content)
@@ -95,33 +239,58 @@ class FBrefScraper:
             Gemini's response
         """
         if prompt is None:
-            prompt = """Analyze this football match data from FBref and extract the following information in a structured format:
+            prompt = """You are a football data analyst. I will provide you with structured match data extracted from FBref.
 
-1. Match Details:
-   - Home Team
-   - Away Team
-   - Final Score
-   - Date
-   - Competition
-   - Venue
+The data includes:
+- MATCH SUMMARY section with teams, scores, and basic match info
+- TABLE sections with player statistics for both teams
+- MATCH EVENTS section with goals, cards, and other key moments
 
-2. Match Statistics (for both teams):
-   - Possession %
-   - Shots
-   - Shots on Target
-   - Corners
-   - Fouls
-   - Yellow Cards
-   - Red Cards
+YOUR TASK: Analyze this structured data and CREATE A CLEAN, COMPREHENSIVE MATCH REPORT.
 
-3. Top Players Performance:
-   - List top 5 players from each team with their key statistics
+Extract and present the following information in markdown format:
 
-4. Key Match Events:
-   - Goals (scorer, minute, assist if available)
-   - Cards (player, minute, type)
+## 1. Match Details
+- Home Team:
+- Away Team:
+- Final Score:
+- Date:
+- Competition:
+- Venue:
+- Expected Goals (xG) for both teams if available
 
-Please format the output in a clear, structured markdown format."""
+## 2. Match Statistics Comparison
+Create a table comparing both teams:
+| Statistic | Home Team | Away Team |
+|-----------|-----------|-----------|
+| Possession % | | |
+| Total Shots | | |
+| Shots on Target | | |
+| Corners | | |
+| Fouls | | |
+| Yellow Cards | | |
+| Red Cards | | |
+
+## 3. Top Performers
+List the top 3-5 players from EACH team based on:
+- Goals scored
+- Assists provided
+- Key statistics (shots, passes, tackles, saves, etc.)
+
+Format: **Player Name** (Team) - [stats]
+
+## 4. Match Events Timeline
+List in chronological order:
+- ⚽ Goals: Player Name (Minute') - Assisted by: [Player if available]
+- 🟨 Yellow Cards: Player Name (Minute')
+- 🟥 Red Cards: Player Name (Minute')
+- 🔄 Substitutions if significant
+
+IMPORTANT:
+- Extract data from the provided tables and summaries
+- If data is missing, write "Data not available"
+- Use clear formatting and be specific with numbers
+- Focus on accuracy and completeness"""
 
         print("\nSending data to Google Gemini API for analysis...")
 
@@ -174,13 +343,122 @@ Please format the output in a clear, structured markdown format."""
             print(f"Error processing with Gemini API: {str(e)}")
             return None
 
-    def scrape_and_analyze(self, fbref_url, output_file=None):
+    def extract_match_data(self, html_content):
+        """
+        Extract relevant match data from HTML using BeautifulSoup
+
+        Args:
+            html_content: The raw HTML content
+
+        Returns:
+            A cleaner, more focused text containing just the match data
+        """
+        try:
+            soup = BeautifulSoup(html_content, 'lxml')
+
+            extracted_data = []
+
+            # Extract scorebox (match summary)
+            scorebox = soup.find('div', {'class': 'scorebox'})
+            if scorebox:
+                extracted_data.append("=== MATCH SUMMARY ===")
+                extracted_data.append(scorebox.get_text(separator='\n', strip=True))
+                extracted_data.append("\n")
+
+            # Extract team stats tables
+            stats_tables = soup.find_all('table', {'class': 'stats_table'})
+            for i, table in enumerate(stats_tables):
+                table_id = table.get('id', f'table_{i}')
+                extracted_data.append(f"\n=== TABLE: {table_id} ===")
+
+                # Get table headers
+                headers = []
+                thead = table.find('thead')
+                if thead:
+                    for th in thead.find_all('th'):
+                        headers.append(th.get_text(strip=True))
+                    extracted_data.append(" | ".join(headers))
+                    extracted_data.append("-" * 80)
+
+                # Get table rows
+                tbody = table.find('tbody')
+                if tbody:
+                    for row in tbody.find_all('tr'):
+                        cells = []
+                        for cell in row.find_all(['td', 'th']):
+                            cells.append(cell.get_text(strip=True))
+                        if cells:
+                            extracted_data.append(" | ".join(cells))
+
+                extracted_data.append("\n")
+
+            # Extract match events (goals, cards, etc.)
+            events = soup.find_all('div', {'class': 'event'})
+            if events:
+                extracted_data.append("\n=== MATCH EVENTS ===")
+                for event in events:
+                    extracted_data.append(event.get_text(separator=' ', strip=True))
+                extracted_data.append("\n")
+
+            result = "\n".join(extracted_data)
+            print(f"Extracted {len(result)} characters of structured match data")
+
+            # Save extracted data for debugging
+            with open('debug_extracted_data.txt', 'w', encoding='utf-8') as f:
+                f.write(result)
+            print("Saved extracted data to debug_extracted_data.txt")
+
+            return result
+
+        except Exception as e:
+            print(f"Error extracting match data: {str(e)}")
+            print("Falling back to raw HTML")
+            return html_content
+
+    def fetch_direct(self, fbref_url):
+        """
+        Fallback: Try to fetch directly with requests (may not work for all sites)
+
+        Args:
+            fbref_url: The FBref match URL to scrape
+
+        Returns:
+            The HTML content from the page
+        """
+        print(f"\nTrying direct fetch as fallback from: {fbref_url}")
+
+        try:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+
+            response = requests.get(fbref_url, headers=headers, timeout=30)
+
+            if response.status_code == 200:
+                content = response.text
+                print(f"Successfully fetched {len(content)} characters via direct request")
+
+                with open('debug_direct_content.html', 'w', encoding='utf-8') as f:
+                    f.write(content)
+                print("Saved direct fetch content to debug_direct_content.html")
+
+                return content
+            else:
+                print(f"Direct fetch returned status code: {response.status_code}")
+                return None
+
+        except Exception as e:
+            print(f"Error in direct fetch: {str(e)}")
+            return None
+
+    def scrape_and_analyze(self, fbref_url, output_file=None, try_fallback=True):
         """
         Complete workflow: Fetch from FBref using Steel API, then analyze with Gemini
 
         Args:
             fbref_url: The FBref match URL
             output_file: Optional file to save the results
+            try_fallback: Whether to try direct fetch if Steel API fails
 
         Returns:
             Dictionary containing the results
@@ -188,12 +466,21 @@ Please format the output in a clear, structured markdown format."""
         # Step 1: Fetch content using Steel API
         raw_content = self.fetch_with_steel_api(fbref_url)
 
+        # Step 1b: Fallback to direct fetch if Steel API fails
+        if not raw_content and try_fallback:
+            print("\nSteel API fetch failed, trying direct fetch...")
+            raw_content = self.fetch_direct(fbref_url)
+
         if not raw_content:
-            print("Failed to fetch content from FBref")
+            print("Failed to fetch content from FBref (tried all methods)")
             return None
 
-        # Step 2: Process with Gemini API
-        gemini_analysis = self.process_with_gemini(raw_content)
+        # Step 2: Extract structured match data from HTML
+        print("\nExtracting structured match data from HTML...")
+        extracted_data = self.extract_match_data(raw_content)
+
+        # Step 3: Process with Gemini API
+        gemini_analysis = self.process_with_gemini(extracted_data)
 
         if not gemini_analysis:
             print("Failed to process content with Gemini API")
