@@ -95,16 +95,33 @@ class FBrefScraper:
             Gemini's response
         """
         if prompt is None:
-            prompt = """You are analyzing football match data scraped from FBref.
+            prompt = """Analyze this football match data from FBref and extract the following information in a structured format:
 
-Write a concise 300-word explanation of this match data. Your explanation should:
-- Summarize the key match details (teams, score, date, competition)
-- Highlight the most important statistics and what they reveal about the match
-- Mention standout player performances if visible in the data
-- Discuss key moments or turning points in the match
-- Keep it informative but conversational
+1. Match Details:
+   - Home Team
+   - Away Team
+   - Final Score
+   - Date
+   - Competition
+   - Venue
 
-Limit your response to approximately 300 words."""
+2. Match Statistics (for both teams):
+   - Possession %
+   - Shots
+   - Shots on Target
+   - Corners
+   - Fouls
+   - Yellow Cards
+   - Red Cards
+
+3. Top Players Performance:
+   - List top 5 players from each team with their key statistics
+
+4. Key Match Events:
+   - Goals (scorer, minute, assist if available)
+   - Cards (player, minute, type)
+
+Please format the output in a clear, structured markdown format."""
 
         print("\nSending data to Google Gemini API for analysis...")
 
@@ -157,14 +174,13 @@ Limit your response to approximately 300 words."""
             print(f"Error processing with Gemini API: {str(e)}")
             return None
 
-    def scrape_and_analyze(self, fbref_url, scraped_data_file="scraped_data.md", analysis_file="match_analysis.md"):
+    def scrape_and_analyze(self, fbref_url, output_file=None):
         """
         Complete workflow: Fetch from FBref using Steel API, then analyze with Gemini
 
         Args:
             fbref_url: The FBref match URL
-            scraped_data_file: File to save the raw scraped data (default: scraped_data.md)
-            analysis_file: File to save the Gemini analysis (default: match_analysis.md)
+            output_file: Optional file to save the results
 
         Returns:
             Dictionary containing the results
@@ -175,15 +191,6 @@ Limit your response to approximately 300 words."""
         if not raw_content:
             print("Failed to fetch content from FBref")
             return None
-
-        # Save raw scraped data to file
-        with open(scraped_data_file, 'w', encoding='utf-8') as f:
-            f.write(f"# Scraped Data from FBref\n\n")
-            f.write(f"**URL:** {fbref_url}\n")
-            f.write(f"**Timestamp:** {datetime.now().isoformat()}\n\n")
-            f.write("---\n\n")
-            f.write(raw_content)
-        print(f"\nRaw scraped data saved to: {scraped_data_file}")
 
         # Step 2: Process with Gemini API
         gemini_analysis = self.process_with_gemini(raw_content)
@@ -197,19 +204,21 @@ Limit your response to approximately 300 words."""
             "url": fbref_url,
             "timestamp": datetime.now().isoformat(),
             "raw_content_length": len(raw_content),
-            "gemini_analysis": gemini_analysis,
-            "scraped_data_file": scraped_data_file,
-            "analysis_file": analysis_file
+            "gemini_analysis": gemini_analysis
         }
 
-        # Save Gemini analysis to file
-        with open(analysis_file, 'w', encoding='utf-8') as f:
-            f.write(f"# Match Analysis\n\n")
-            f.write(f"**URL:** {fbref_url}\n")
-            f.write(f"**Timestamp:** {results['timestamp']}\n\n")
-            f.write("---\n\n")
-            f.write(gemini_analysis)
-        print(f"Gemini analysis saved to: {analysis_file}")
+        # Save to file if specified
+        if output_file:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                if output_file.endswith('.json'):
+                    json.dump(results, f, indent=2, ensure_ascii=False)
+                else:
+                    f.write(f"# FBref Match Analysis\n\n")
+                    f.write(f"**URL:** {fbref_url}\n")
+                    f.write(f"**Timestamp:** {results['timestamp']}\n\n")
+                    f.write("## Gemini Analysis\n\n")
+                    f.write(gemini_analysis)
+            print(f"\nResults saved to: {output_file}")
 
         return results
 
@@ -257,18 +266,12 @@ def main():
 
     results = scraper.scrape_and_analyze(
         fbref_url=match_url,
-        scraped_data_file="scraped_data.md",
-        analysis_file="match_analysis.md"
+        output_file="match_analysis.md"
     )
 
     if results:
         print("\n" + "=" * 60)
-        print("SCRAPING COMPLETE!")
-        print("=" * 60)
-        print(f"\n✓ Raw scraped data: {results['scraped_data_file']}")
-        print(f"✓ Gemini analysis: {results['analysis_file']}")
-        print("\n" + "=" * 60)
-        print("GEMINI ANALYSIS (Copy this for your PR):")
+        print("GEMINI ANALYSIS RESULT (Copy this for your PR):")
         print("=" * 60)
         print()
         print(results['gemini_analysis'])
