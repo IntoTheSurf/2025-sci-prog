@@ -28,4 +28,4 @@ Each record in the dataset represents one used car listing with the following at
 | `price` | Car price (target variable) |
 
 ## Methodology
-![Diagram](diagram.png)
+![Diagram](dijagram.png)
