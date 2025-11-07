@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Used cars price prediction using a machine learning - Antonio Jurjevic
+* **Project:** Climate Data Analysis
+* **Student:** Antonio Jurjevic
+* **Folder:** `ajurjevic-projekt/`
+* **Status:** In Progress
+* **Description:** The project focuses on developing a machine learning model that predicts the price of used cars based on their characteristics using data collected from websites such as mobile.de and AutoScout24.
+
 ---
 
 ## Instructions for Students
