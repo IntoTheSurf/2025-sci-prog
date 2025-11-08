@@ -13,27 +13,37 @@ This file lists all individual projects for the Scientific Programming course. S
 
 ```markdown
 ### [Project Title] - [Student Name]
-* **Project:** [Project Title]
-* **Student:** [Student Name]
-* **Folder:** `projectname-student/`
-* **Status:** [In Progress/Completed]
-* **Description:** [Brief one-line description]
+
+- **Project:** [Project Title]
+- **Student:** [Student Name]
+- **Folder:** `projectname-student/`
+- **Status:** [In Progress/Completed]
+- **Description:** [Brief one-line description]
 ```
 
 ---
 
 ## Current Projects
 
-*(Students will add their projects here as they get started)*
+_(Students will add their projects here as they get started)_
 
 ### Example Project - Nikola Balic
-* **Project:** Climate Data Analysis
-* **Student:** Nikola Balic
-* **Folder:** `climate-analysis-nbalic/`
-* **Status:** In Progress
-* **Description:** Analyzing temperature trends using Python data science libraries.
+
+- **Project:** Climate Data Analysis
+- **Student:** Nikola Balic
+- **Folder:** `climate-analysis-nbalic/`
+- **Status:** In Progress
+- **Description:** Analyzing temperature trends using Python data science libraries.
 
 ---
+
+### Flight delay prediction - Marul Babic
+
+- **Project:** Flight delay prediction
+- **Student:** Marul Babic
+- **Folder:** `mbabic-projekt/`
+- **Status:** In Progress
+- **Description:** Building a machine learning model to predict airline flight delays using historical data.
 
 ## Instructions for Students
 
