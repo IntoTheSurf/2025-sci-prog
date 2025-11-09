@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### SiteSecGym - Paško Stipandžija
+* **Project:** SiteSecGym - Playground for Testing Web Agents
+* **Student:** Paško Stipandžija
+* **Folder:** `sitesecgym-pstipandz/`
+* **Status:** In Progress
+* **Description:** : SiteSecGym je kontrolirani web sandbox dizajniran za testiranje LLM-ova, agenata za automatizaciju preglednika i RL-agenta protiv različitih malicioznih i rizičnih web elemenata. Cilj projekta je prikupljanje detaljnih podataka o ponašanju agenata, evaluacija njihovih odgovora pomoću verifikatora te generiranje pouzdanog skupa podataka za daljnju analizu sigurnosti.
+
 ---
 
 ## Instructions for Students
