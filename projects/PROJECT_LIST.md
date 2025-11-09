@@ -33,6 +33,12 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Facial Emotion Recognition - Srđan Machiedo
+* **Project:** Facial Emotion Recognition
+* **Student:** Srđan Machiedo
+* **Folder:** `facial-emotion-recognition-smachiedo/`
+* **Status:** In Progress
+* **Description:** Building a machine learning model that can recognize emotions on a human face using images.
 ---
 
 ## Instructions for Students
