@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### AI Flappy bird analysis - Rei Krstić
+* **Project:** AI Flappy bird analysis
+* **Student:** Rei Krstić
+* **Folder:** `ai-flappy-bird-analysis-rkrstic/`
+* **Status:** In Progress
+* **Description:** The goal of the project is to use reinforcement learning algorithms or genetic algorithms to train an agent to play a Flappy Bird style game autonomously and then compare agent vs human gameplay behavior. Optional extensions include evaluation of performance of large language models as simplified agents and modification of the game’s difficulty to observe how agent performance adapts. 
+
 ---
 
 ## Instructions for Students
