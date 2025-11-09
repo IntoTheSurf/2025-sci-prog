@@ -1,0 +1,74 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.17.7"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "52bd577afdb36a5efcd754ac67d232e0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Looking for .env at: /workspaces/2025-sci-prog/students/04/exercise/mbabic_scraper/.env\n\u2705 Google API key uspje\u0161no u\u010ditan.\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "c302bbb0b6faebb7467d03230687a9d1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Dohva\u0107am sadr\u017eaj s: https://www.bbc.com/news\n",
+          "mimetype": "text/plain"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u2705 Uspje\u0161no dohva\u0107en sadr\u017eaj:\n\nUK military to help protect Belgium after drone incursions Nearly a million evacuated as 'super typhoon' makes landfall in Philippines King leads two-minute silence at Remembrance Sunday service Uganda president admits Kenyan activists were arrested and held in 'the fridge' BBC on Luzon Island as super typhoon nears Philippines Thousands of Chinese lured abroad and forced to be scammers - now Beij\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c265ae8b14b32c637e1fe9e350243e41",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\n\ud83e\uddfe AI Sa\u017eetak vijesti:\n\nEvo sa\u017eetka glavnih vijesti i kratkog pregleda dana:\n\n**Glavne vijesti u 5 to\u010daka:**\n\n1.  **Belgija:** UK \u0161alje vojsku u pomo\u0107 Belgiji zbog upada dronova.\n2.  **Filipini:** Gotovo milijun ljudi evakuirano u Filipinima zbog super tajfuna. BBC izvje\u0161tava s otoka Luzon dok se tajfun pribli\u017eava.\n3.  **Uganda/Kenija:** Predsjednik Ugande priznaje da su kenijski aktivisti uhi\u0107eni i dr\u017eani u pritvoru.\n4.  **Kina:** Kina se obra\u010dunava s prevarantima koji su namamili tisu\u0107e ljudi u inozemstvo kako bi ih prisilili na prijevare.\n5.  **Svijet/Razno:** Nekoliko razli\u010ditih pri\u010da uklju\u010duje kontroverze: Tanzanija i kritike prema predsjedniku, \u017eene skrivaju svoje partnere online, te u SAD-u \u010dista\u010dica ubijena nakon \u0161to je do\u0161la na pogre\u0161nu adresu.\n\n**Kratki pregled dana:**\n\nSuper tajfun opusto\u0161io je Filipine, izazvav\u0161i masovne evakuacije, dok su tenzije porasle diljem svijeta zbog sigurnosnih prijetnji u Belgiji, politi\u010dkih napetosti u Ugandi i Kini te \u0161okantnih incidenata u SAD-u.\n\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}
