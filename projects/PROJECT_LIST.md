@@ -24,7 +24,12 @@ This file lists all individual projects for the Scientific Programming course. S
 
 ## Current Projects
 
-*(Students will add their projects here as they get started)*
+### Location Prediction - Marija Karoglan
+* **Project:** Location Prediction
+* **Student:** Marija Karoglan
+* **Folder:** `projects/locationprediction-marijak`
+* **Status:** In Progress
+* **Description:** Model that predicts the location of a boat after it sends an SOS signal.
 
 ### Example Project - Nikola Balic
 * **Project:** Climate Data Analysis
