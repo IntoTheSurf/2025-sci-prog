@@ -33,6 +33,12 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Weather Impact Analysis - Pavao Katavić
+* **Project:** Weather Impact Analysis
+* **Student:** Pavao Katavić
+* **Folder:** `weather-impact-pkatavic/`
+* **Status:** In Progress
+* **Description:** Exploring how weather conditions (temperature, humidity, wind, pressure) influence external factors such as air quality or tourist activity. Data collected via APIs and web scraping, analyzed using Python data science tools.
 ---
 
 ## Instructions for Students
