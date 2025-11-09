@@ -1,4 +1,4 @@
-# Shipping Delay Prediction using Python Data Science Libraries
+# Shipping Delay Prediction
 
 ---
 
@@ -90,8 +90,8 @@ flowchart LR
     A["Kaggle Shipment Dataset"] --> B["Data Cleaning"]
     B --> C["EDA"]
     C --> D["Feature Engineering"]
-    D --> E["Model Training\n(Logistic Regression, Decision Tree, Random Forest)"]
-    E --> F["Evaluation\n(Accuracy, Precision, Recall, F1, ROC-AUC)"]
+    D --> E["Model Training(Logistic Regression, Decision Tree, Random Forest)"]
+    E --> F["Evaluation\Accuracy, Precision, Recall, F1, ROC-AUC)"]
     F --> G["Interpretation & Insights"]
 
     style A fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000
