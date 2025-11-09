@@ -19,3 +19,6 @@ This engine is planned to be created in a Google Colab notebook so all needed da
 
 ## Data collection
 The necessary datasets would be created primarily from agent and human gameplay variable states such as bird position, pipe distance, velocity, etc.
+
+## Diagram
+![Diagram](ai-flappy-bird-analysis-diagram.svg)
