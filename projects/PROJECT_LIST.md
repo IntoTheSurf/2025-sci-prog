@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Intrusion detection system - Mariela Uvodic
+* **Project:** Intrusion detection system that utilizes AI model(s) to detect and classify cyber attacks
+* **Student:** Mariela Uvodic
+* **Folder:** `InstrusionDetectionSystem-muvodic/`
+* **Status:** In Progress
+* **Description:** Analyzing incoming traffic and detecting and classifying potential attacks by analyzing TCP packet content with artificial intelligence
+
 ---
 
 ## Instructions for Students
