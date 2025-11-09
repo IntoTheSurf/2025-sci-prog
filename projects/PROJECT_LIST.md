@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Shipping Delay Prediction - Petra Krišto
+* **Project:** Shipping Delay Prediction Using Python Data Science Libraries
+* **Student:** Petra Krišto
+* **Folder:** `pkristo-projekt`
+* **Status:** In Progress
+* **Description:** Predicting shipment delivery delays using real-world supply chain data and Python data science libraries.
+
 ---
 
 ## Instructions for Students
