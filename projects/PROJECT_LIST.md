@@ -33,6 +33,12 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** Analyzing temperature trends using Python data science libraries.
 
+### Croatian Property Price Estimator - Maksimilijan Katavić
+* **Project:** Croatian Property Price Estimator
+* **Student:** Maksimilijan Katavić
+* **Folder:** `property-estimator-croatia-mkatavic/`
+* **Status:** In Progress
+* **Description:** ML-powered tool for estimating real estate prices in Croatia using web-scraped data, LLM-based feature extraction, and geolocation analysis.
 ---
 
 ## Instructions for Students
