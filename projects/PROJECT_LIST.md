@@ -85,6 +85,13 @@ _(Students will add their projects here as they get started)_
 * **Status:** In Progress
 * **Description:** The project focuses on developing a machine learning model that predicts the price of used cars based on their characteristics using data collected from websites such as mobile.de and AutoScout24.
 
+### AI Flappy bird analysis - Rei Krstić
+* **Project:** AI Flappy bird analysis
+* **Student:** Rei Krstić
+* **Folder:** `ai-flappy-bird-analysis-rkrstic/`
+* **Status:** In Progress
+* **Description:** The goal of the project is to use reinforcement learning algorithms or genetic algorithms to train an agent to play a Flappy Bird style game autonomously and then compare agent vs human gameplay behavior. Optional extensions include evaluation of performance of large language models as simplified agents and modification of the game’s difficulty to observe how agent performance adapts. 
+
 ---
 
 ## Instructions for Students
