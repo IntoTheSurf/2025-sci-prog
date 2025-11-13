@@ -78,6 +78,13 @@ _(Students will add their projects here as they get started)_
 - **Status:** In Progress
 - **Description:** Building a machine learning model to predict airline flight delays using historical data.
 
+### Used cars price prediction using a machine learning - Antonio Jurjevic
+* **Project:** Climate Data Analysis
+* **Student:** Antonio Jurjevic
+* **Folder:** `ajurjevic-projekt/`
+* **Status:** In Progress
+* **Description:** The project focuses on developing a machine learning model that predicts the price of used cars based on their characteristics using data collected from websites such as mobile.de and AutoScout24.
+
 ---
 
 ## Instructions for Students
