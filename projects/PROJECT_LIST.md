@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** ML-powered tool for estimating real estate prices in Croatia using web-scraped data, LLM-based feature extraction, and geolocation analysis.
 
+### Intrusion detection system - Mariela Uvodic
+* **Project:** Intrusion detection system that utilizes AI model(s) to detect and classify cyber attacks
+* **Student:** Mariela Uvodic
+* **Folder:** `InstrusionDetectionSystem-muvodic/`
+* **Status:** In Progress
+* **Description:** Analyzing incoming traffic and detecting and classifying potential attacks by analyzing TCP packet content with artificial intelligence
+
 ### Shipping Delay Prediction - Petra Krišto
 * **Project:** Shipping Delay Prediction Using Python Data Science Libraries
 * **Student:** Petra Krišto
