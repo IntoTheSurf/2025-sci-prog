@@ -33,6 +33,13 @@ This file lists all individual projects for the Scientific Programming course. S
 * **Status:** In Progress
 * **Description:** ML-powered tool for estimating real estate prices in Croatia using web-scraped data, LLM-based feature extraction, and geolocation analysis.
 
+### Facial Emotion Recognition - Srđan Machiedo
+* **Project:** Facial Emotion Recognition
+* **Student:** Srđan Machiedo
+* **Folder:** `facial-emotion-recognition-smachiedo/`
+* **Status:** In Progress
+* **Description:** Building a machine learning model that can recognize emotions on a human face using images.* 
+
 ### Intrusion detection system - Mariela Uvodic
 * **Project:** Intrusion detection system that utilizes AI model(s) to detect and classify cyber attacks
 * **Student:** Mariela Uvodic
