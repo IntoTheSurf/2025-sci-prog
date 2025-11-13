@@ -25,7 +25,12 @@ This file lists all individual projects for the Scientific Programming course. S
 
 ## Current Projects
 
-_(Students will add their projects here as they get started)_
+### Location Prediction - Marija Karoglan
+* **Project:** Location Prediction
+* **Student:** Marija Karoglan
+* **Folder:** `projects/locationprediction-marijak`
+* **Status:** In Progress
+* **Description:** Model that predicts the location of a boat after it sends an SOS signal.
 
 ###  LLM Agents Chess Battle - Nikola Vidović
 * **Project:** LLM Agents Chess Battle
@@ -33,17 +38,6 @@ _(Students will add their projects here as they get started)_
 * **Folder:** `llm-chess-nvidovic/`
 * **Status:** Planning Phase
 * **Description:** Implementation of an automated chess playing system using LLM agents across three competitive disciplines utilizing Steel browser.
-
----
-
-
-### Example Project - Nikola Balic
-
-- **Project:** Climate Data Analysis
-- **Student:** Nikola Balic
-- **Folder:** `climate-analysis-nbalic/`
-- **Status:** In Progress
-- **Description:** Analyzing temperature trends using Python data science libraries.
 
 ### Croatian Property Price Estimator - Maksimilijan Katavić
 * **Project:** Croatian Property Price Estimator
