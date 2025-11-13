@@ -26,19 +26,40 @@ This file lists all individual projects for the Scientific Programming course. S
 
 *(Students will add their projects here as they get started)*
 
-### Example Project - Nikola Balic
-* **Project:** Climate Data Analysis
-* **Student:** Nikola Balic
-* **Folder:** `climate-analysis-nbalic/`
+### Croatian Property Price Estimator - Maksimilijan Katavić
+* **Project:** Croatian Property Price Estimator
+* **Student:** Maksimilijan Katavić
+* **Folder:** `property-estimator-croatia-mkatavic/`
 * **Status:** In Progress
-* **Description:** Analyzing temperature trends using Python data science libraries.
+* **Description:** ML-powered tool for estimating real estate prices in Croatia using web-scraped data, LLM-based feature extraction, and geolocation analysis.
 
 ### Facial Emotion Recognition - Srđan Machiedo
 * **Project:** Facial Emotion Recognition
 * **Student:** Srđan Machiedo
 * **Folder:** `facial-emotion-recognition-smachiedo/`
 * **Status:** In Progress
-* **Description:** Building a machine learning model that can recognize emotions on a human face using images.
+* **Description:** Building a machine learning model that can recognize emotions on a human face using images.* 
+
+### Intrusion detection system - Mariela Uvodic
+* **Project:** Intrusion detection system that utilizes AI model(s) to detect and classify cyber attacks
+* **Student:** Mariela Uvodic
+* **Folder:** `InstrusionDetectionSystem-muvodic/`
+* **Status:** In Progress
+* **Description:** Analyzing incoming traffic and detecting and classifying potential attacks by analyzing TCP packet content with artificial intelligence
+
+### Shipping Delay Prediction - Petra Krišto
+* **Project:** Shipping Delay Prediction Using Python Data Science Libraries
+* **Student:** Petra Krišto
+* **Folder:** `pkristo-projekt`
+* **Status:** In Progress
+* **Description:** Predicting shipment delivery delays using real-world supply chain data and Python data science libraries.
+
+### Weather Impact Analysis - Pavao Katavić
+* **Project:** Weather Impact Analysis
+* **Student:** Pavao Katavić
+* **Folder:** `weather-impact-pkatavic/`
+* **Status:** In Progress
+* **Description:** Exploring how weather conditions (temperature, humidity, wind, pressure) influence external factors such as air quality or tourist activity. Data collected via APIs and web scraping, analyzed using Python data science tools.
 ---
 
 ## Instructions for Students
