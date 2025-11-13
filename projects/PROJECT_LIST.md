@@ -27,6 +27,16 @@ This file lists all individual projects for the Scientific Programming course. S
 
 _(Students will add their projects here as they get started)_
 
+###  LLM Agents Chess Battle - Nikola Vidović
+* **Project:** LLM Agents Chess Battle
+* **Student:** Nikola Vidović
+* **Folder:** `llm-chess-nvidovic/`
+* **Status:** Planning Phase
+* **Description:** Implementation of an automated chess playing system using LLM agents across three competitive disciplines utilizing Steel browser.
+
+---
+
+
 ### Example Project - Nikola Balic
 
 - **Project:** Climate Data Analysis
