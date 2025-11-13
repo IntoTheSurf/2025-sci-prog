@@ -68,7 +68,6 @@ def _(df, plt, sns):
     plt.xlabel("Prodaja")
     plt.ylabel("Frekvencija")
     plt.show()
-
     return
 
 
@@ -86,7 +85,7 @@ def _(df):
     correlation_matrix = df.corr(numeric_only=True)
     print("Korelacijska matrica")
     print(correlation_matrix)
-    return
+return
 
 
 if __name__ == "__main__":
