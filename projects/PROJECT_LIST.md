@@ -26,12 +26,12 @@ This file lists all individual projects for the Scientific Programming course. S
 
 *(Students will add their projects here as they get started)*
 
-### Example Project - Nikola Balic
-* **Project:** Climate Data Analysis
-* **Student:** Nikola Balic
-* **Folder:** `climate-analysis-nbalic/`
+### Croatian Property Price Estimator - Maksimilijan Katavić
+* **Project:** Croatian Property Price Estimator
+* **Student:** Maksimilijan Katavić
+* **Folder:** `property-estimator-croatia-mkatavic/`
 * **Status:** In Progress
-* **Description:** Analyzing temperature trends using Python data science libraries.
+* **Description:** ML-powered tool for estimating real estate prices in Croatia using web-scraped data, LLM-based feature extraction, and geolocation analysis.
 
 ### Shipping Delay Prediction - Petra Krišto
 * **Project:** Shipping Delay Prediction Using Python Data Science Libraries
